@@ -1,4 +1,4 @@
-package com.example.demo.networkdevices;
+package com.example.demo.myapplication.networkdevices;
 
 import java.time.LocalDateTime;
 

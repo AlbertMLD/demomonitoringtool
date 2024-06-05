@@ -1,8 +1,10 @@
-package com.example.demo.networkdevices;
+package com.example.demo.myapplication.networkdevices;
 
 import java.util.List;
 import java.util.Optional;
 
+import com.example.demo.myapplication.networkdevices.NetworkDevice;
+import com.example.demo.myapplication.networkdevices.NetworkDeviceRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

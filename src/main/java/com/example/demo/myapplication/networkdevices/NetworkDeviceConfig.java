@@ -1,4 +1,4 @@
-package com.example.demo.networkdevices;
+package com.example.demo.myapplication.networkdevices;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -11,7 +11,7 @@ import org.springframework.context.annotation.Configuration;
 public class NetworkDeviceConfig {
 
     @Bean
-    CommandLineRunner commandLineRunner(NetworkDeviceRepository repository) {
+    CommandLineRunner networkDevicecommandLineRunner(NetworkDeviceRepository repository) {
         return args -> {
             NetworkDevice device1 = new NetworkDevice(
                     1,
