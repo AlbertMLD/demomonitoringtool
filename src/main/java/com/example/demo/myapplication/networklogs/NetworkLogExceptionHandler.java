@@ -13,12 +13,6 @@ import java.util.Map;
 @RestControllerAdvice
 public class NetworkLogExceptionHandler {
 
-    @ExceptionHandler(NetworkLogNotFoundException.class)
-    @ResponseStatus(HttpStatus.NOT_FOUND)
-    public Map<String, Object> handleNetworkLogNotFoundException(NetworkLogNotFoundException ex) {
-        return createErrorResponse(HttpStatus.NOT_FOUND, ex.getMessage(), ex.getPath());
-    }
-
     @ExceptionHandler(MethodArgumentNotValidException.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     public Map<String, Object> handleValidationExceptions(MethodArgumentNotValidException ex) {
@@ -34,6 +28,12 @@ public class NetworkLogExceptionHandler {
         errors.put("fieldErrors", fieldErrors);
 
         return errors;
+    }
+
+    @ExceptionHandler(NetworkLogNotFoundException.class)
+    @ResponseStatus(HttpStatus.NOT_FOUND)
+    public Map<String, Object> handleNetworkLogNotFoundException(NetworkLogNotFoundException ex) {
+        return createErrorResponse(HttpStatus.NOT_FOUND, ex.getMessage(), ex.getPath());
     }
 
     private Map<String, Object> createErrorResponse(HttpStatus status, String message, String path) {

@@ -16,7 +16,7 @@ public class NetworkInterfaceController {
         this.networkInterfaceService = networkInterfaceService;
     }
 
-    @GetMapping
+    @GetMapping("/networkinterfaces")
     public List<NetworkInterface> getAllNetworkInterfaces() {
         return networkInterfaceService.getAllNetworkInterfaces();
     }

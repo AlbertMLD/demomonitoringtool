@@ -1,8 +1,11 @@
 package com.example.demo.myapplication.networklogs;
 
 import jakarta.persistence.*;
-import org.antlr.v4.runtime.misc.NotNull;
-import javax.validation.constraints.*;
+
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
+import javax.validation.constraints.Size;
 import java.time.LocalDateTime;
 
 @Entity
@@ -22,7 +25,7 @@ public class NetworkLog {
     @NotNull
     private Integer interfaceId;
 
-    @PastOrPresent
+    @NotNull
     private LocalDateTime timestamp;
 
     @NotEmpty
@@ -114,19 +117,5 @@ public class NetworkLog {
 
     public void setSourceIp(String sourceIp) {
         this.sourceIp = sourceIp;
-    }
-
-    @Override
-    public String toString() {
-        return "NetworkLog{" +
-                "logId=" + logId +
-                ", deviceId=" + deviceId +
-                ", administratorId=" + administratorId +
-                ", interfaceId=" + interfaceId +
-                ", timestamp=" + timestamp +
-                ", logMessage='" + logMessage + '\'' +
-                ", logLevel='" + logLevel + '\'' +
-                ", sourceIp='" + sourceIp + '\'' +
-                '}';
     }
 }

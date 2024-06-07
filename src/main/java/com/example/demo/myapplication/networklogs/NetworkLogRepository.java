@@ -5,5 +5,4 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface NetworkLogRepository extends JpaRepository<NetworkLog, Long> {
-    // Additional query methods can be added here
 }
