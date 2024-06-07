@@ -1,13 +1,11 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Network Devices</title>
+    <title>Dashboard</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-    <!-- Add your custom styles here -->
     <style>
-        /* Body styles */
         body {
             font-family: Arial, sans-serif;
             background-color: #f8f9fa;
@@ -16,7 +14,6 @@
             padding: 0;
         }
 
-        /* Header styles */
         header {
             background-color: #007bff;
             color: #fff;
@@ -30,7 +27,6 @@
             margin-bottom: 20px;
         }
 
-        /* Navigation styles */
         nav {
             background-color: #343a40;
             padding: 10px 0;
@@ -61,38 +57,32 @@
             background-color: #555;
         }
 
-        /* Container styles */
         .container {
             max-width: 1200px;
             margin: 0 auto;
             padding: 20px;
         }
 
-        /* Table styles */
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            background-color: #fff;
-            box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+        p {
+            font-size: 18px;
         }
 
-        th, td {
+        .error-message {
+            background-color: #f8d7da;
+            color: #721c24;
             padding: 10px;
-            text-align: left;
-            border-bottom: 1px solid #ddd; /* Add border between rows */
+            margin-bottom: 20px;
+            border-radius: 5px;
         }
 
-        th {
-            background-color: #343a40;
-            color: #fff;
-            font-weight: bold;
+        .error-message h2 {
+            margin-top: 0;
         }
 
-        tr:nth-child(even) {
-            background-color: #f2f2f2;
+        .error-message ul {
+            padding-left: 20px;
         }
 
-        /* Footer styles */
         footer {
             background-color: #007bff;
             color: #fff;
@@ -106,7 +96,7 @@
 </head>
 <body>
 <header>
-    <h1>Network Devices</h1>
+    <h1>Dashboard</h1>
 </header>
 
 <nav>
@@ -119,36 +109,27 @@
 </nav>
 
 <div class="container">
-    <table>
-        <thead>
-        <tr>
-            <th>Device ID</th>
-            <th>Device Name</th>
-            <th>IP Address</th>
-            <th>Device Type</th>
-            <th>Location</th>
-            <th>Manufacturer</th>
-            <th>Firmware Version</th>
-            <th>Status</th>
-            <th>Last Seen</th>
-        </tr>
-        </thead>
-        <tbody>
-        <!-- Iterate over network devices -->
-        <tr th:each="device : ${devices}">
-            <td th:text="${device.deviceId}"></td>
-            <td th:text="${device.deviceName}"></td>
-            <td th:text="${device.deviceIpAddress}"></td>
-            <td th:text="${device.deviceType}"></td>
-            <td th:text="${device.location}"></td>
-            <td th:text="${device.manufacturer}"></td>
-            <td th:text="${device.firmwareVersion}"></td>
-            <td th:text="${device.status}"></td>
-            <td th:text="${device.lastSeen}"></td>
-        </tr>
-        </tbody>
-    </table>
+    <div class="error-message">
+        <h2>Error Messages</h2>
+        <ul id="error-list">
+        </ul>
+    </div>
+
+    <div>
+        <h2>Dashboard Content</h2>
+        <p>This is the dashboard content.</p>
+        <div id="interfaceTrafficChartContainer">
+            <canvas id="interfaceTrafficChart" width="400" height="200"></canvas>
+        </div>
+    </div>
+
 </div>
 
+<footer>
+    <p>&copy; 2024 Orange Moldova. All rights reserved.</p>
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script src="scripts/dashboard.js"></script>
 </body>
 </html>

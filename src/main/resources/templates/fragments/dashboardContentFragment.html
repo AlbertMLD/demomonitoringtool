@@ -1,0 +1,91 @@
+<!-- Locație: src/main/resources/templates/fragments/dashboardContentFragment.html -->
+<div>
+    <!-- Inițializarea graficului -->
+    <div>
+        <canvas id="trafficChart" width="400" height="200"></canvas>
+    </div>
+</div>
+
+<script>
+    // Funcția pentru a inițializa sau a actualiza graficul cu datele de trafic
+    function initializeOrUpdateChart() {
+        var ctx = document.getElementById('trafficChart').getContext('2d');
+
+        // Verificăm dacă graficul există deja
+        if (!trafficChart) {
+            trafficChart = new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: [], // Etichetele de pe axa x (poate fi gol la început)
+                    datasets: [{
+                        label: 'Traffic Data',
+                        data: [], // Datele de trafic (poate fi gol la început)
+                        borderColor: 'rgba(75, 192, 192, 1)',
+                        backgroundColor: 'rgba(75, 192, 192, 0.2)',
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    scales: {
+                        x: {
+                            type: 'time', // Tipul de scalare pentru axa x
+                            time: {
+                                unit: 'second' // Unitatea de timp pentru etichetele axei x
+                            },
+                            title: {
+                                display: true,
+                                text: 'Time' // Titlul pentru axa x
+                            }
+                        },
+                        y: {
+                            beginAtZero: true,
+                            title: {
+                                display: true,
+                                text: 'Traffic Value' // Titlul pentru axa y
+                            }
+                        }
+                    }
+                }
+            });
+        }
+
+        updateChartData(trafficChart); // Actualizăm datele graficului
+    }
+
+    // Funcția pentru a actualiza datele graficului cu noile date de trafic
+    function updateChartData(chart) {
+        fetch('/traffic-data') // Obținem datele de trafic de la endpoint-ul /traffic-data
+            .then(response => response.json())
+            .then(data => {
+                var now = new Date(); // Obținem timpul actual
+                var dataset = chart.data.datasets[0]; // Obținem setul de date al graficului
+
+                // Adăugăm noua valoare de trafic la setul de date
+                dataset.data.push({
+                    x: now, // Utilizăm timpul actual ca etichetă pe axa x
+                    y: data.traffic // Valoarea de trafic din datele obținute
+                });
+
+                // Verificăm dacă avem mai mult de 20 de puncte de date și eliminăm primul dacă da
+                if (dataset.data.length > 20) {
+                    dataset.data.shift();
+                }
+
+                // Adăugăm timpul actual ca etichetă pe axa x
+                chart.data.labels.push(now);
+
+                // Verificăm dacă avem mai mult de 20 de etichete și eliminăm prima dacă da
+                if (chart.data.labels.length > 20) {
+                    chart.data.labels.shift();
+                }
+
+                chart.update(); // Actualizăm graficul
+            })
+            .catch(error => {
+                console.error('Error fetching traffic data:', error);
+            });
+    }
+
+    setInterval(initializeOrUpdateChart, 2000);
+    initializeOrUpdateChart();
+</script>

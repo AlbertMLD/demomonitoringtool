@@ -1,0 +1,7 @@
+<!-- templates/fragments/dashboardContentFragment.html -->
+<div>
+    <div>
+            <h2>Interface Traffic</h2>
+            <canvas id="interfaceTrafficChart" width="400" height="200"></canvas>
+    </div>
+</div>

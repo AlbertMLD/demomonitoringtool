@@ -128,6 +128,9 @@
     <div>
         <h2>Dashboard Content</h2>
         <p>This is the dashboard content.</p>
+        <div id="dashboardContent">
+        </div>
+
     </div>
 </div>
 
@@ -160,6 +163,33 @@
         .catch(error => {
             console.error('Error fetching error messages:', error);
         });
+
+    // Funcție pentru actualizarea conținutului dashboard-ului
+    function updateDashboardContent() {
+        fetch('/dashboard')
+            .then(response => response.text())
+            .then(data => {
+                // Obține elementul cu id-ul "dashboardContent"
+                var dashboardContent = document.getElementById("dashboardContent");
+
+                // Verifică dacă elementul există
+                if (dashboardContent) {
+                    // Înlocuiește conținutul HTML al elementului cu răspunsul primit
+                    dashboardContent.innerHTML = data;
+                } else {
+                    console.error("Elementul cu id-ul 'dashboardContent' nu a fost găsit.");
+                }
+            })
+            .catch(error => {
+                console.error('Error fetching dashboard content:', error);
+            });
+    }
+
+    // Setează un interval pentru actualizarea conținutului dashboard-ului
+    setInterval(updateDashboardContent, 2000);
+
+    // Poți apela funcția și imediat pentru a încărca conținutul la inițializare
+    updateDashboardContent();
 </script>
 </body>
 </html>
