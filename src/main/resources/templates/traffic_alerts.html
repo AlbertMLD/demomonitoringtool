@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Traffic Alerts</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        /* Body styles */
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f8f9fa;
+            color: #333;
+            margin: 0;
+            padding: 0;
+        }
+
+        /* Table styles */
+        table {
+            width: 100%;
+            margin-bottom: 20px;
+            border-collapse: collapse;
+            background-color: #fff;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+        }
+
+        th, td {
+            padding: 15px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+
+        th {
+            background-color: #343a40; /* Changed background color to match navigation */
+            color: #fff;
+        }
+
+        tr:nth-child(even) {
+            background-color: #f2f2f2;
+        }
+
+        /* Header styles */
+        header {
+            text-align: center;
+            margin-bottom: 20px;
+            background-color: #007bff;
+            color: #fff;
+            padding: 20px 0;
+        }
+
+        h1 {
+            font-size: 36px;
+            margin: 0;
+        }
+
+        /* Navigation styles */
+        nav {
+            background-color: #343a40;
+            padding: 10px 0;
+            text-align: center;
+        }
+
+        nav ul {
+            list-style: none;
+            margin: 0;
+            padding: 0;
+        }
+
+        nav ul li {
+            display: inline-block;
+            margin-right: 20px;
+        }
+
+        nav ul li a {
+            color: #fff;
+            text-decoration: none;
+            font-size: 18px;
+            padding: 10px;
+            border-radius: 5px;
+            transition: background-color 0.3s ease;
+        }
+
+        nav ul li a:hover {
+            background-color: #555;
+        }
+    </style>
+</head>
+<body>
+<header>
+    <h1>Traffic Alerts</h1>
+</header>
+
+<nav>
+    <ul>
+        <li><a href="networkdevices">Network Devices</a></li>
+        <li><a href="networkinterfaces">Network Interfaces</a></li>
+        <li><a href="networklogs">Network Logs</a></li>
+        <li><a href="traffic_alerts">Traffic Alerts</a></li>
+    </ul>
+</nav>
+
+<div class="container">
+    <table class="table table-bordered">
+        <thead>
+        <tr>
+            <th>Alert ID</th>
+            <th>Administrator ID</th>
+            <th>Interface ID</th>
+            <th>Interface Name</th>
+            <th>Alert Type</th>
+            <th>Timestamp</th>
+        </tr>
+        </thead>
+        <tbody id="alert-list">
+        <!-- Alerts will be dynamically inserted here -->
+        </tbody>
+    </table>
+</div>
+
+<script>
+    // Fetch traffic alerts from the backend
+    fetch('/api/traffic-alerts')
+        .then(response => response.json())
+        .then(alerts => {
+            // Get the tbody element to append traffic alerts
+            const alertList = document.getElementById('alert-list');
+
+            // Clear any existing rows
+            alertList.innerHTML = '';
+
+            // Append each alert to the table
+            alerts.forEach(alert => {
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td>${alert.alertId}</td>
+                    <td>${alert.administratorId}</td>
+                    <td>${alert.interfaceId}</td>
+                    <td>${alert.interfaceName}</td>
+                    <td>${alert.alertType}</td>
+                    <td>${new Date(alert.timestamp).toLocaleString()}</td>
+                `;
+                alertList.appendChild(row);
+            });
+        })
+        .catch(error => {
+            console.error('Error fetching traffic alerts:', error);
+        });
+</script>
+</body>
+</html>

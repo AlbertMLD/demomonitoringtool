@@ -14,9 +14,6 @@ public class NetworkInterface {
     @Column(name = "device_id")
     private Long deviceId;
 
-    @Column(name = "administrator_id")
-    private Long administratorId;
-
     @Column(name = "interface_name")
     private String interfaceName;
 
@@ -31,13 +28,11 @@ public class NetworkInterface {
 
     // Constructors
     public NetworkInterface() {
-        // Default constructor
     }
 
-    // Constructor with custom parameters
-    public NetworkInterface(Long deviceId, Long administratorId, String interfaceName, String interfaceType, Integer speedMbps, String macAddress) {
+    public NetworkInterface(Long interfaceId, Long deviceId, String interfaceName, String interfaceType, Integer speedMbps, String macAddress) {
+        this.interfaceId = interfaceId;
         this.deviceId = deviceId;
-        this.administratorId = administratorId;
         this.interfaceName = interfaceName;
         this.interfaceType = interfaceType;
         this.speedMbps = speedMbps;
@@ -59,14 +54,6 @@ public class NetworkInterface {
 
     public void setDeviceId(Long deviceId) {
         this.deviceId = deviceId;
-    }
-
-    public Long getAdministratorId() {
-        return administratorId;
-    }
-
-    public void setAdministratorId(Long administratorId) {
-        this.administratorId = administratorId;
     }
 
     public String getInterfaceName() {
@@ -99,19 +86,5 @@ public class NetworkInterface {
 
     public void setMacAddress(String macAddress) {
         this.macAddress = macAddress;
-    }
-
-    // toString() method
-    @Override
-    public String toString() {
-        return "NetworkInterface{" +
-                "interfaceId=" + interfaceId +
-                ", deviceId=" + deviceId +
-                ", administratorId=" + administratorId +
-                ", interfaceName='" + interfaceName + '\'' +
-                ", interfaceType='" + interfaceType + '\'' +
-                ", speedMbps=" + speedMbps +
-                ", macAddress='" + macAddress + '\'' +
-                '}';
     }
 }

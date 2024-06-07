@@ -1,12 +1,13 @@
 package com.example.demo.myapplication.networkinterfaces;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
 
 import java.util.List;
 
-@RestController
-@RequestMapping("/api/v1/network-interfaces")
+@Controller
 public class NetworkInterfaceController {
 
     private final NetworkInterfaceService networkInterfaceService;
@@ -17,17 +18,9 @@ public class NetworkInterfaceController {
     }
 
     @GetMapping("/networkinterfaces")
-    public List<NetworkInterface> getAllNetworkInterfaces() {
-        return networkInterfaceService.getAllNetworkInterfaces();
-    }
-
-    @PostMapping
-    public void registerNewNetworkInterface(@RequestBody NetworkInterface networkInterface) {
-        networkInterfaceService.addNewNetworkInterface(networkInterface);
-    }
-
-    @DeleteMapping(path = "{interfaceId}")
-    public void deleteNetworkInterface(@PathVariable("interfaceId") Long interfaceId) {
-        networkInterfaceService.deleteNetworkInterface(interfaceId);
+    public String showNetworkInterfaces(Model model) {
+        List<NetworkInterface> interfaces = networkInterfaceService.getAllNetworkInterfaces();
+        model.addAttribute("interfaces", interfaces);
+        return "networkinterfaces";
     }
 }

@@ -1,6 +1,3 @@
-/**
- * Created by ALUNGU2 on 05.06.2024 at 22:24.
- */
 package com.example.demo.myapplication.networkinterfaces;
 
 import org.springframework.boot.CommandLineRunner;
