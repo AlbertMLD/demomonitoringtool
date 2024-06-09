@@ -15,47 +15,47 @@
             padding: 0;
         }
 
-/* Header styles */
-header {
-    background-color: #007bff;
-    color: #fff;
-    text-align: center;
-    margin-bottom: 0px;
-}
+        /* Header styles */
+        header {
+            background-color: #007bff;
+            color: #fff;
+            text-align: center;
+            margin-bottom: 0px;
+        }
 
-h1 {
-    font-size: 36px;
-}
+        h1 {
+            font-size: 36px;
+        }
 
-/* Menu styles */
-ul.menu {
-    list-style: none;
-    background-color: #343a40;
-    margin: 0;
-    text-align: center;
-    border-bottom: none; /* Remove the border */
-    border-top: 10px solid #fff; /* Add white top border */
-    padding-top: 10px; /* Add 10px top padding */
-    padding-bottom: 10px; /* Add 10px bottom padding */
-}
+        /* Menu styles */
+        ul.menu {
+            list-style: none;
+            background-color: #343a40;
+            margin: 0;
+            text-align: center;
+            border-bottom: none; /* Remove the border */
+            border-top: 10px solid #fff; /* Add white top border */
+            padding-top: 10px; /* Add 10px top padding */
+            padding-bottom: 10px; /* Add 10px bottom padding */
+        }
 
-ul.menu li {
-    display: inline-block;
-    margin-right: 0px;
-}
+        ul.menu li {
+            display: inline-block;
+            margin-right: 0px;
+        }
 
-ul.menu li a {
-    color: #fff;
-    text-decoration: none;
-    font-size: 18px;
-    padding: 10px;
-    border-radius: 5px;
-    transition: background-color 0.3s ease;
-}
+        ul.menu li a {
+            color: #fff;
+            text-decoration: none;
+            font-size: 18px;
+            padding: 10px;
+            border-radius: 5px;
+            transition: background-color 0.3s ease;
+        }
 
-ul.menu li a:hover {
-    background-color: #555;
-}
+        ul.menu li a:hover {
+            background-color: #555;
+        }
 
         /* Dashboard section styles */
         .dashboard-section {
@@ -136,6 +136,53 @@ ul.menu li a:hover {
             padding: 10px;
             text-align: left;
         }
+
+        /* Define background colors for each type of section */
+        .dashboard-section.network-devices {
+            background-color: #28a745; /* Green for up devices */
+        }
+
+        .dashboard-section.network-interfaces-down {
+            background-color: #ffc107; /* Orange for interfaces down */
+        }
+
+        .dashboard-section.network-logs,
+        .dashboard-section.traffic-alerts {
+            background-color: #ffc107; /* Yellow for logs and traffic alerts */
+        }
+
+        .dashboard-section.network-devices-down {
+            background-color: #dc3545; /* Red for down devices */
+        }
+
+        /* Dashboard item styles */
+        .dashboard-item {
+            padding: 10px;
+            margin-bottom: 5px;
+            border-radius: 5px;
+        }
+
+        .traffic-alert {
+            background-color: #ffc107; /* Yellow */
+        }
+
+        .network-log {
+            background-color: #ffc107; /* Yellow */
+        }
+
+        .interface-down {
+            background-color: #dc3545; /* Red */
+        }
+
+	/* Text color for Up and Down Devices */
+        .up-devices {
+            color: #28a745; /* Green */
+        }
+
+        .down-devices {
+            color: #dc3545; /* Red */
+        }
+
     </style>
 </head>
 <body>
@@ -156,8 +203,8 @@ ul.menu li a:hover {
         <div class="dashboard-row">
             <div class="dashboard-section dashboard-col">
                 <h2>Network Devices</h2>
-                <p>Up Devices: <span id="up-devices-count">0</span></p>
-                <p>Down Devices: <span id="down-devices-count">0</span></p>
+                <p>Up Devices: <span id="up-devices-count" class="up-devices">0</span></p>
+                <p>Down Devices: <span id="down-devices-count" class="down-devices">0</span></p>
             </div>
 
             <div class="dashboard-section dashboard-col">
@@ -256,11 +303,9 @@ ul.menu li a:hover {
         </table>
     </div>
 </div>
-
 <footer>
     <p>&copy; 2024 Orange Moldova. All rights reserved.</p>
 </footer>
-
 <script>
     // Constants
     const REFRESH_RATE = 5000; // 5 seconds
@@ -270,174 +315,128 @@ ul.menu li a:hover {
 
     // Function to generate random data for the dashboard
     function generateRandomData() {
-        // Network Devices
-        const upDevices = Math.floor(Math.random() * 100) + 1;
-        const downDevices = Math.floor(Math.random() * 10);
+    // Network Devices
+    const upDevices = Math.floor(Math.random() * 100) + 1;
+    const downDevices = Math.floor(Math.random() * 10);
 
-        document.getElementById('up-devices-count').textContent = upDevices;
-        document.getElementById('down-devices-count').textContent = downDevices;
+    document.getElementById('up-devices-count').textContent = upDevices;
+    document.getElementById('down-devices-count').textContent = downDevices;
 
-        // Traffic Alerts
-        const trafficAlertsList = document.getElementById('traffic-alerts-list');
-        trafficAlertsList.innerHTML = ''; // Clear current list
+    // Traffic Alerts
+    const trafficAlertsList = document.getElementById('traffic-alerts-list');
+    trafficAlertsList.innerHTML = ''; // Clear current list
 
-        for (let i = 0; i < MAX_ALERTS; i++) {
-            const trafficPercent = Math.floor(Math.random() * 100) + 1;
-            if (trafficPercent > 80) {
-                const alertItem = document.createElement('li');
-                alertItem.textContent = `Traffic Alert: Interface ${i + 1} at ${trafficPercent}% capacity`;
-                trafficAlertsList.appendChild(alertItem);
-            }
-        }
+    for (let i = 0; i < MAX_ALERTS; i++) {
+    const trafficPercent = Math.floor(Math.random() * 100) + 1;
+    if (trafficPercent > 80) {
+    const alertItem = document.createElement('li');
+    alertItem.textContent = `Traffic Alert: Interface ${i + 1} at ${trafficPercent}% capacity`;
+    alertItem.classList.add('dashboard-item', 'traffic-alert');
+    trafficAlertsList.appendChild(alertItem);
+    }
+    }
 
-        // Network Logs
-        const networkLogsList = document.getElementById('network-logs-list');
-        networkLogsList.innerHTML = ''; // Clear current list
+    // Network Logs
+    const networkLogsList = document.getElementById('network-logs-list');
+    networkLogsList.innerHTML = ''; // Clear current list
 
-        for (let i = 0; i < MAX_LOGS; i++) {
-            const logItem = document.createElement('li');
-            logItem.textContent = `Log ${i + 1}: Event description at ${new Date().toLocaleTimeString()}`;
-            networkLogsList.appendChild(logItem);
-        }
+    for (let i = 0; i < MAX_LOGS; i++) {
+    const logItem = document.createElement('li');
+    logItem.textContent = `Log ${i + 1}: Event description at ${new Date().toLocaleTimeString()}`;
+    logItem.classList.add('dashboard-item', 'network-log');
+    networkLogsList.appendChild(logItem);
+    }
 
-        // Network Interfaces Down
-        const interfacesDownList = document.getElementById('network-interfaces-down-list');
-        interfacesDownList.innerHTML = ''; // Clear current list
+    // Network Interfaces Down
+    const interfacesDownList = document.getElementById('network-interfaces-down-list');
+    interfacesDownList.innerHTML = ''; // Clear current list
 
-        for (let i = 0; i < downDevices && i < MAX_INTERFACES_DOWN; i++) {
-            const downInterfaceItem = document.createElement('li');
-            downInterfaceItem.textContent = `Interface ${i + 1} down on Device ${Math.floor(Math.random() * 100)}`;
-            interfacesDownList.appendChild(downInterfaceItem);
-        }
+    for (let i = 0; i < downDevices && i < MAX_INTERFACES_DOWN; i++) {
+    const downInterfaceItem = document.createElement('li');
+    downInterfaceItem.textContent = `Interface ${i + 1} down on Device ${Math.floor(Math.random() * 100)}`;
+    downInterfaceItem.classList.add('dashboard-item', 'interface-down');
+    interfacesDownList.appendChild(downInterfaceItem);
+    }
     }
 
     // Function to fetch data for specific section
     function fetchSectionData(section) {
-        const apiEndpoints = {
-            'network-devices': '/api/networkdevices',
-            'network-interfaces': '/api/networkinterfaces',
-            'network-logs': '/api/networklogs',
-            'traffic-alerts': '/api/traffic_alerts'
-        };
+    const apiEndpoints = {
+    'network-devices': '/api/networkdevices',
+    'network-interfaces': '/api/networkinterfaces',
+    'network-logs': '/api/networklogs',
+    'traffic-alerts': '/api/traffic_alerts'
+    };
 
-        const tableIds = {
-            'network-devices': 'network-devices-table',
-            'network-interfaces': 'network-interfaces-table',
-            'network-logs': 'network-logs-table',
-            'traffic-alerts': 'traffic-alerts-table'
-        };
+    const tableIds = {
+    'network-devices': 'network-devices-table',
+    'network-interfaces': 'network-interfaces-table',
+    'network-logs': 'network-logs-table',
+    'traffic-alerts': 'traffic-alerts-table'
+    };
 
-        fetch(apiEndpoints[section])
-            .then(response => response.json())
-            .then(data => {
-                const tableBody = document.getElementById(tableIds[section]);
-                tableBody.innerHTML = ''; // Clear current table data
+    fetch(apiEndpoints[section])
+    .then(response => response.json())
+    .then(data => {
+    const tableBody = document.getElementById(tableIds[section]);
+    tableBody.innerHTML = ''; // Clear current table data
 
-                data.forEach(item => {
-                    const row = document.createElement('tr');
-                    Object.values(item).forEach(value => {
-                        const cell = document.createElement('td');
-                        cell.textContent = value;
-                        row.appendChild(cell);
-                    });
-                    tableBody.appendChild(row);
-                });
-            })
-            .catch(error => {
-                console.error(`Error fetching data for ${section}:`, error);
-            });
+    data.forEach(item => {
+    const row = document.createElement('tr');
+    Object.values(item).forEach(value => {
+    const cell = document.createElement('td');
+    cell.textContent = value;
+    row.appendChild(cell);
+    });
+    tableBody.appendChild(row);
+    });
+    })
+    .catch(error => {
+    console.error(`Error fetching data for ${section}:`, error);
+    });
     }
 
     // Function to handle section switching
     function switchSection(event) {
-        event.preventDefault();
+    event.preventDefault();
 
-        // Get all sections and links
-        const sections = document.querySelectorAll('.section');
-        const links = document.querySelectorAll('nav ul li a');
+    // Get all sections and links
+    const sections = document.querySelectorAll('.section');
+    const links = document.querySelectorAll('nav ul li a');
 
-        // Hide all sections
-        sections.forEach(section => {
-            section.classList.remove('active');
-        });
+    // Hide all sections
+    sections.forEach(section => {
+    section.classList.remove('active');
+    });
 
-        // Remove 'active' class from all links
-        links.forEach(link => {
-            link.classList.remove('active');
-        });
+    // Remove 'active' class from all links
+    links.forEach(link => {
+    link.classList.remove('active');
+    });
 
-        // Get the target section ID from the clicked link's href attribute
-        const targetSection = event.currentTarget.getAttribute('href');
+    // Get the target section ID from the clicked link's href attribute
+    const targetSection = event.currentTarget.getAttribute('href');
 
-        // Show the target section
-        document.querySelector(targetSection).classList.add('active');
+    // Show the target section
+    document.querySelector(targetSection).classList.add('active');
 
-        // Add 'active' class to the clicked link
-        event.currentTarget.classList.add('active');
+    // Add 'active' class to the clicked link
+    event.currentTarget.classList.add('active');
 
-        // If the target section is not the dashboard, fetch its data
-        if (targetSection !== '#dashboard') {
-            fetchSectionData(targetSection);
-        }
+    // If the target section is not the dashboard, fetch its data
+    if (targetSection !== '#dashboard') {
+    fetchSectionData(targetSection);
+    }
     }
 
     // Attach click event listeners to navigation links
     document.querySelectorAll('nav ul li a').forEach(link => {
-        link.addEventListener('click', switchSection);
+    link.addEventListener('click', switchSection);
     });
 
     // Initialize and update dashboard data every REFRESH_RATE milliseconds
     generateRandomData();
     setInterval(generateRandomData, REFRESH_RATE);
-
-    // Fetch initial data for dashboard sections
-    updateDashboardContent();
-
-    // Function to fetch and update dashboard content
-    function updateDashboardContent() {
-        // Fetch error messages from the backend
-        fetch('/api/error-messages')
-            .then(response => response.json())
-            .then(data => {
-                // Extract error messages from the response
-                const errorMessages = data;
-
-                // Get the ul element to append error messages
-                const errorList = document.getElementById('error-list');
-
-                // Clear any existing error messages
-                errorList.innerHTML = '';
-
-                // Append each error message to the ul element
-                errorMessages.forEach(message => {
-                    const listItem = document.createElement('li');
-                    listItem.textContent = message;
-                    errorList.appendChild(listItem);
-                });
-            })
-            .catch(error => {
-                console.error('Error fetching error messages:', error);
-            });
-
-        // Fetch and update other dashboard content
-        fetch('/dashboard')
-            .then(response => response.text())
-            .then(data => {
-                // Get the element with id "dashboardContent"
-                const dashboardContent = document.getElementById('dashboardContent');
-
-                // Check if the element exists
-                if (dashboardContent) {
-                    // Replace the HTML content of the element with the received response
-                    dashboardContent.innerHTML = data;
-                } else {
-                    console.error("Element with id 'dashboardContent' not found.");
-                }
-            })
-            .catch(error => {
-                console.error('Error fetching dashboard content:', error);
-            });
-    }
 </script>
 </body>
 </html>
