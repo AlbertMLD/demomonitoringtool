@@ -67,24 +67,15 @@
             padding: 20px;
         }
 
-        p {
-            font-size: 18px;
-        }
-
-        /* Error message styles */
-        .error-message {
-            background-color: #f8d7da;
-            color: #721c24;
-            padding: 10px;
+        .dashboard-section {
             margin-bottom: 20px;
-            border-radius: 5px;
         }
 
-        .error-message h2 {
-            margin-top: 0;
+        .dashboard-section h2 {
+            margin-bottom: 10px;
         }
 
-        .error-message ul {
+        .dashboard-section ul {
             padding-left: 20px;
         }
 
@@ -107,30 +98,43 @@
 
 <nav>
     <ul>
-        <li><a href="networkdevices">Network Devices</a></li>
-        <li><a href="networkinterfaces">Network Interfaces</a></li>
-        <li><a href="networklogs">Network Logs</a></li>
-        <li><a href="traffic_alerts">Traffic Alerts</a></li>
-        <!-- Add more links as needed -->
+        <li><a href="#network-devices">Network Devices</a></li>
+        <li><a href="#traffic-alerts">Traffic Alerts</a></li>
+        <li><a href="#network-logs">Network Logs</a></li>
+        <li><a href="#network-interfaces">Network Interfaces</a></li>
     </ul>
 </nav>
 
 <div class="container">
-    <!-- Error messages section -->
-    <div class="error-message">
-        <h2>Error Messages</h2>
-        <ul id="error-list">
-            <!-- Error messages will be appended here dynamically -->
+    <!-- Network Devices section -->
+    <div id="network-devices" class="dashboard-section">
+        <h2>Network Devices</h2>
+        <p>Up Devices: <span id="up-devices-count">0</span></p>
+        <p>Down Devices: <span id="down-devices-count">0</span></p>
+    </div>
+
+    <!-- Traffic Alerts section -->
+    <div id="traffic-alerts" class="dashboard-section">
+        <h2>Traffic Alerts</h2>
+        <ul id="traffic-alerts-list">
+            <!-- Traffic alerts will be appended here dynamically -->
         </ul>
     </div>
 
-    <!-- Dashboard content section -->
-    <div>
-        <h2>Dashboard Content</h2>
-        <p>This is the dashboard content.</p>
-        <div id="dashboardContent">
-        </div>
+    <!-- Network Logs section -->
+    <div id="network-logs" class="dashboard-section">
+        <h2>Network Logs</h2>
+        <ul id="network-logs-list">
+            <!-- Network logs will be appended here dynamically -->
+        </ul>
+    </div>
 
+    <!-- Network Interfaces section -->
+    <div id="network-interfaces" class="dashboard-section">
+        <h2>Network Interfaces Down</h2>
+        <ul id="network-interfaces-down-list">
+            <!-- Network interfaces down will be appended here dynamically -->
+        </ul>
     </div>
 </div>
 
@@ -138,58 +142,59 @@
     <p>&copy; 2024 Orange Moldova. All rights reserved.</p>
 </footer>
 
-<!-- JavaScript code for fetching and displaying error messages -->
 <script>
-    // Fetch error messages from the backend
-    fetch('/api/error-messages')
-        .then(response => response.json())
-        .then(data => {
-            // Extract error messages from the response
-            const errorMessages = data;
+    // Constants
+    const REFRESH_RATE = 5000; // 5 seconds
+    const MAX_ALERTS = 5;
+    const MAX_LOGS = 10;
+    const MAX_INTERFACES_DOWN = 5;
 
-            // Get the ul element to append error messages
-            const errorList = document.getElementById('error-list');
+    // Function to generate random data
+    function generateRandomData() {
+        // Network Devices
+        const upDevices = Math.floor(Math.random() * 100) + 1;
+        const downDevices = Math.floor(Math.random() * 10);
 
-            // Clear any existing error messages
-            errorList.innerHTML = '';
+        document.getElementById('up-devices-count').textContent = upDevices;
+        document.getElementById('down-devices-count').textContent = downDevices;
 
-            // Append each error message to the ul element
-            errorMessages.forEach(message => {
-                const listItem = document.createElement('li');
-                listItem.textContent = message;
-                errorList.appendChild(listItem);
-            });
-        })
-        .catch(error => {
-            console.error('Error fetching error messages:', error);
-        });
+        // Traffic Alerts
+        const trafficAlertsList = document.getElementById('traffic-alerts-list');
+        trafficAlertsList.innerHTML = ''; // Clear current list
 
-    // Funcție pentru actualizarea conținutului dashboard-ului
-    function updateDashboardContent() {
-        fetch('/dashboard')
-            .then(response => response.text())
-            .then(data => {
-                // Obține elementul cu id-ul "dashboardContent"
-                var dashboardContent = document.getElementById("dashboardContent");
+        for (let i = 0; i < MAX_ALERTS; i++) {
+            const trafficPercent = Math.floor(Math.random() * 100) + 1;
+            if (trafficPercent > 80) {
+                const alertItem = document.createElement('li');
+                alertItem.textContent = `Traffic Alert: Interface ${i + 1} at ${trafficPercent}% capacity`;
+                trafficAlertsList.appendChild(alertItem);
+            }
+        }
 
-                // Verifică dacă elementul există
-                if (dashboardContent) {
-                    // Înlocuiește conținutul HTML al elementului cu răspunsul primit
-                    dashboardContent.innerHTML = data;
-                } else {
-                    console.error("Elementul cu id-ul 'dashboardContent' nu a fost găsit.");
-                }
-            })
-            .catch(error => {
-                console.error('Error fetching dashboard content:', error);
-            });
+        // Network Logs
+        const networkLogsList = document.getElementById('network-logs-list');
+        networkLogsList.innerHTML = ''; // Clear current list
+
+        for (let i = 0; i < MAX_LOGS; i++) {
+            const logItem = document.createElement('li');
+            logItem.textContent = `Log ${i + 1}: Event description at ${new Date().toLocaleTimeString()}`;
+            networkLogsList.appendChild(logItem);
+        }
+
+        // Network Interfaces Down
+        const interfacesDownList = document.getElementById('network-interfaces-down-list');
+        interfacesDownList.innerHTML = ''; // Clear current list
+
+        for (let i = 0; i < downDevices && i < MAX_INTERFACES_DOWN; i++) {
+            const downInterfaceItem = document.createElement('li');
+            downInterfaceItem.textContent = `Interface ${i + 1} down on Device ${Math.floor(Math.random() * 100)}`;
+            interfacesDownList.appendChild(downInterfaceItem);
+        }
     }
 
-    // Setează un interval pentru actualizarea conținutului dashboard-ului
-    setInterval(updateDashboardContent, 2000);
-
-    // Poți apela funcția și imediat pentru a încărca conținutul la inițializare
-    updateDashboardContent();
+    // Initialize and update data every REFRESH_RATE milliseconds
+    generateRandomData();
+    setInterval(generateRandomData, REFRESH_RATE);
 </script>
 </body>
 </html>

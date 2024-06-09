@@ -40,4 +40,3 @@ public class TrafficAlertPageController {
         return data; // Return data as JSON
     }
 }
-
