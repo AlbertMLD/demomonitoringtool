@@ -171,7 +171,7 @@
         }
 
         .interface-down {
-            background-color: #dc3545; /* Red */
+            background-color: #dc3545; /* Light Red */
         }
 
 	/* Text color for Up and Down Devices */
@@ -179,9 +179,32 @@
             color: #28a745; /* Green */
         }
 
-        .down-devices {
-            color: #dc3545; /* Red */
-        }
+.down-device {
+    background-color: #dc3545; /*  red background */
+    color: #dc3545; /* Dark red text */
+    padding: 10px; /* Add padding for better appearance */
+    margin-bottom: 5px; /* Add margin between each device text */
+    border-radius: 5px; /* Add border radius for rounded corners */
+}
+
+
+        /* Define background color for down devices */
+.down-device {
+    background-color: #dc3545; /* Light red */
+    color: #000; /* Dark red */
+    padding: 10px; /* Add padding for better appearance */
+    margin-bottom: 5px; /* Add margin between each device text */
+    border-radius: 5px; /* Add border radius for rounded corners */
+}
+
+/* Define background color for up devices */
+.up-device {
+    background-color: #d4edda; /* Light green */
+    color: #155724; /* Dark green */
+    padding: 10px; /* Add padding for better appearance */
+    margin-bottom: 5px; /* Add margin between each device text */
+    border-radius: 5px; /* Add border radius for rounded corners */
+}
 
     </style>
 </head>
@@ -205,6 +228,9 @@
                 <h2>Network Devices</h2>
                 <p>Up Devices: <span id="up-devices-count" class="up-devices">0</span></p>
                 <p>Down Devices: <span id="down-devices-count" class="down-devices">0</span></p>
+                <div id="down-devices-text" class="down-devices">
+                    <!-- Down devices text will be appended here dynamically -->
+                </div>
             </div>
 
             <div class="dashboard-section dashboard-col">
@@ -315,37 +341,56 @@
 
     // Function to generate random data for the dashboard
     function generateRandomData() {
+
     // Network Devices
-    const upDevices = Math.floor(Math.random() * 100) + 1;
-    const downDevices = Math.floor(Math.random() * 10);
+    const downDevices = Math.floor(Math.random() * 3);
+    const upDevices = 100 - downDevices;
 
     document.getElementById('up-devices-count').textContent = upDevices;
     document.getElementById('down-devices-count').textContent = downDevices;
+
+    // Text for down devices
+    const downDevicesText = document.getElementById('down-devices-text');
+    downDevicesText.innerHTML = ''; // Clear previous text
+
+    for (let i = 1; i <= downDevices; i++) {
+        const deviceText = document.createElement('p');
+        deviceText.textContent = `Device ${i} is down`;
+        deviceText.classList.add('down-device', 'dashboard-item');
+        downDevicesText.appendChild(deviceText);
+    }
 
     // Traffic Alerts
     const trafficAlertsList = document.getElementById('traffic-alerts-list');
     trafficAlertsList.innerHTML = ''; // Clear current list
 
-    for (let i = 0; i < MAX_ALERTS; i++) {
-    const trafficPercent = Math.floor(Math.random() * 100) + 1;
-    if (trafficPercent > 80) {
+// Generate realistic traffic alerts
+const trafficAlerts = [
+    { type: 'High Bandwidth', interface: 'GigabitEthernet0/1', severity: 'Critical', device: 'Device 1' },
+    { type: 'Link Flapping', interface: 'FastEthernet0/12', severity: 'Major', device: 'Device 2' },
+    { type: 'Broadcast Storm', interface: 'GigabitEthernet0/24', severity: 'Major', device: 'Device 3' },
+    { type: 'Packet Loss', interface: 'GigabitEthernet0/3', severity: 'Minor', device: 'Device 4' }
+];
+
+trafficAlerts.forEach(alert => {
     const alertItem = document.createElement('li');
-    alertItem.textContent = `Traffic Alert: Interface ${i + 1} at ${trafficPercent}% capacity`;
+    alertItem.textContent = `Traffic Alert: ${alert.type} detected on ${alert.interface} of ${alert.device} (Severity: ${alert.severity})`;
     alertItem.classList.add('dashboard-item', 'traffic-alert');
     trafficAlertsList.appendChild(alertItem);
-    }
-    }
+});
+
 
     // Network Logs
     const networkLogsList = document.getElementById('network-logs-list');
     networkLogsList.innerHTML = ''; // Clear current list
 
-    for (let i = 0; i < MAX_LOGS; i++) {
-    const logItem = document.createElement('li');
-    logItem.textContent = `Log ${i + 1}: Event description at ${new Date().toLocaleTimeString()}`;
-    logItem.classList.add('dashboard-item', 'network-log');
-    networkLogsList.appendChild(logItem);
-    }
+    const logs = generateNetworkLogs(); // Generate network logs
+    logs.forEach(log => {
+        const logItem = document.createElement('li');
+        logItem.textContent = log;
+        logItem.classList.add('dashboard-item', 'network-log');
+        networkLogsList.appendChild(logItem);
+    });
 
     // Network Interfaces Down
     const interfacesDownList = document.getElementById('network-interfaces-down-list');
@@ -358,6 +403,42 @@
     interfacesDownList.appendChild(downInterfaceItem);
     }
     }
+
+    // Function to generate random network logs
+function generateNetworkLogs() {
+    const logDescriptions = [
+        { description: "Interface flapping detected", device: 'Device A' },
+        { description: "Link failure on port 1/1/1", device: 'Device B' },
+        { description: "Router rebooted unexpectedly", device: 'Device C' },
+        { description: "High CPU utilization detected", device: 'Device D' },
+        { description: "Packet loss detected on VLAN 10", device: 'Device A' },
+        { description: "Configuration change detected", device: 'Device B' }
+    ];
+
+    const logs = [];
+
+    // Generate logs with random descriptions and timestamps
+    for (let i = 1; i <= MAX_LOGS; i++) {
+        const randomIndex = Math.floor(Math.random() * logDescriptions.length);
+        const logDescription = logDescriptions[randomIndex];
+        const timestamp = generateTimestamp();
+
+        logs.push(`${logDescription.description} on ${logDescription.device} at ${timestamp}`);
+    }
+
+    return logs;
+}
+
+// Function to generate a random timestamp
+function generateTimestamp() {
+    const now = new Date();
+    const hours = now.getHours();
+    const minutes = now.getMinutes();
+    const seconds = now.getSeconds();
+
+    // Format the timestamp as HH:MM:SS
+    return `${hours}:${minutes}:${seconds}`;
+}
 
     // Function to fetch data for specific section
     function fetchSectionData(section) {
