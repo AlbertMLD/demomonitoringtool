@@ -16,6 +16,11 @@ public class TrafficAlertController {
         this.trafficAlertService = trafficAlertService;
     }
 
+    /**
+     * Endpoint to fetch all traffic alerts.
+     *
+     * @return List of TrafficAlert objects representing all traffic alerts
+     */
     @GetMapping("/api/traffic-alerts")
     public List<TrafficAlert> getTrafficAlerts() {
         return trafficAlertService.getAllTrafficAlerts();

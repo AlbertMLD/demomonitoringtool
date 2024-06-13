@@ -19,6 +19,11 @@ public class NetworkLogService {
         this.networkLogRepository = networkLogRepository;
     }
 
+    /**
+     * Retrieves all network logs from the database.
+     *
+     * @return List of NetworkLog objects representing all logs in the database
+     */
     public List<NetworkLog> getAllLogs() {
         logger.info("Fetching all network logs");
         return networkLogRepository.findAll();

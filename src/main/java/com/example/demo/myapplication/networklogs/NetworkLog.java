@@ -8,6 +8,9 @@ import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 import java.time.LocalDateTime;
 
+/**
+ * Entity class representing network log entries stored in the database.
+ */
 @Entity
 @Table(name = "network_logs")
 public class NetworkLog {

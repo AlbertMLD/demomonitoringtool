@@ -17,11 +17,20 @@ public class TrafficAlertService {
         this.trafficAlertRepository = trafficAlertRepository;
     }
 
+    /**
+     * Retrieves all traffic alerts from the database.
+     *
+     * @return List of TrafficAlert objects representing all traffic alerts in the database
+     */
     public List<TrafficAlert> getAllTrafficAlerts() {
         return trafficAlertRepository.findAll();
     }
 
-    // Method to initialize sample data
+    /**
+     * Initializes sample data if the database is empty.
+     * Sample data includes 10 predefined TrafficAlert instances.
+     * Each instance represents a simulated traffic alert.
+     */
     @PostConstruct
     public void initSampleData() {
         if (trafficAlertRepository.count() == 0) {
